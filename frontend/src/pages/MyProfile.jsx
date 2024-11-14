@@ -67,18 +67,18 @@ const MyProfile = () => {
             <hr className='bg-[#ADADAD] h-[1px] border-none' />
 
             <div>
-                <p className='text-gray-600 underline mt-3'>CONTACT INFORMATION</p>
+                <p className='text-gray-600 underline mt-3'>INFORMACIÓN DEL CONTACTO</p>
                 <div className='grid grid-cols-[1fr_3fr] gap-y-2.5 mt-3 text-[#363636]'>
-                    <p className='font-medium'>Email id:</p>
+                    <p className='font-medium'>Correo:</p>
                     <p className='text-blue-500'>{userData.email}</p>
-                    <p className='font-medium'>Phone:</p>
+                    <p className='font-medium'>Telefono:</p>
 
                     {isEdit
                         ? <input className='bg-gray-50 max-w-52' type="text" onChange={(e) => setUserData(prev => ({ ...prev, phone: e.target.value }))} value={userData.phone} />
                         : <p className='text-blue-500'>{userData.phone}</p>
                     }
 
-                    <p className='font-medium'>Address:</p>
+                    <p className='font-medium'>Dirección:</p>
 
                     {isEdit
                         ? <p>
@@ -91,9 +91,9 @@ const MyProfile = () => {
                 </div>
             </div>
             <div>
-                <p className='text-[#797979] underline mt-3'>BASIC INFORMATION</p>
+                <p className='text-[#797979] underline mt-3'>INFORMACIÓN BASICA</p>
                 <div className='grid grid-cols-[1fr_3fr] gap-y-2.5 mt-3 text-gray-600'>
-                    <p className='font-medium'>Gender:</p>
+                    <p className='font-medium'>Genero:</p>
 
                     {isEdit
                         ? <select className='max-w-20 bg-gray-50' onChange={(e) => setUserData(prev => ({ ...prev, gender: e.target.value }))} value={userData.gender} >
