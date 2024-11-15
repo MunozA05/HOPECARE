@@ -68,7 +68,7 @@ export const specialityData = [
         image: Gynecologist
     },
     {
-        speciality: 'Dermatologist',
+        speciality: 'Dermatologo',
         image: Dermatologist
     },
     {
