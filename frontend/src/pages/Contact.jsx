@@ -3,35 +3,73 @@ import { assets } from '../assets/assets';
 import emailjs from 'emailjs-com';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
+  // Estado para formulario PQRS
+  const [formDataPQRS, setFormDataPQRS] = useState({
     name: '',
     email: '',
     type: 'Pregunta',
     message: '',
   });
 
-  const handleChange = (e) => {
+  // Estado para formulario de contacto
+  const [formDataContact, setFormDataContact] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+
+  const handleChangePQRS = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormDataPQRS({ ...formDataPQRS, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleChangeContact = (e) => {
+    const { name, value } = e.target;
+    setFormDataContact({ ...formDataContact, [name]: value });
+  };
+
+  // Función para enviar formulario PQRS
+  const handleSubmitPQRS = (e) => {
     e.preventDefault();
 
     emailjs.send(
       'service_sy3v5wn', // Service ID de emailjs
-      'template_y5mt693', //  Template ID de emailjs
+      'template_y5mt693', // Template ID de emailjs
       {
-        name: formData.name,
-        email: formData.email,
-        type: formData.type,
-        message: formData.message,
+        name: formDataPQRS.name,
+        email: formDataPQRS.email,
+        type: formDataPQRS.type,
+        message: formDataPQRS.message,
       },
       'FjmLtRmJwE7dKzmww' // Reemplaza con tu Public Key o User ID
     )
     .then((response) => {
       alert('Correo enviado exitosamente!');
-      setFormData({ name: '', email: '', type: 'Pregunta', message: '' });
+      setFormDataPQRS({ name: '', email: '', type: 'Pregunta', message: '' });
+    })
+    .catch((error) => {
+      console.error('Error al enviar el correo:', error);
+      alert('Hubo un error al enviar el correo.');
+    });
+  };
+
+  // Función para enviar formulario de contacto
+  const handleSubmitContact = (e) => {
+    e.preventDefault();
+
+    emailjs.send(
+      'service_sy3v5wn', // Service ID de emailjs
+      'template_3godu5a', // Template ID de emailjs 
+      {
+        name: formDataContact.name,
+        email: formDataContact.email,
+        message: formDataContact.message,
+      },
+      'FjmLtRmJwE7dKzmww' // Reemplaza con tu Public Key o User ID
+    )
+    .then((response) => {
+      alert('Correo de contacto enviado exitosamente!');
+      setFormDataContact({ name: '', email: '', message: '' });
     })
     .catch((error) => {
       console.error('Error al enviar el correo:', error);
@@ -57,62 +95,113 @@ const Contact = () => {
         </div>
       </div>
 
-      <div className='text-center text-xl font-semibold text-gray-600 mb-8'>Formulario PQRS</div>
-      <form className='max-w-xl mx-auto px-4 py-6 border rounded shadow-md' onSubmit={handleSubmit}>
-        <div className='mb-4'>
-          <label className='block text-gray-700'>Nombre</label>
-          <input
-            type='text'
-            name='name'
-            value={formData.name}
-            onChange={handleChange}
-            className='w-full px-3 py-2 border rounded'
-            required
-          />
+      <div className="flex flex-col md:flex-row gap-10">
+        {/* Formulario PQRS */}
+        <div className="md:w-1/2">
+          <div className='text-center text-xl font-semibold text-gray-600 mb-8'>Formulario PQRS</div>
+          <form className='max-w-xl mx-auto px-4 py-6 border rounded shadow-md' onSubmit={handleSubmitPQRS}>
+            <div className='mb-4'>
+              <label className='block text-gray-700'>Nombre</label>
+              <input
+                type='text'
+                name='name'
+                value={formDataPQRS.name}
+                onChange={handleChangePQRS}
+                className='w-full px-3 py-2 border rounded'
+                required
+              />
+            </div>
+            <div className='mb-4'>
+              <label className='block text-gray-700'>Correo Electrónico</label>
+              <input
+                type='email'
+                name='email'
+                value={formDataPQRS.email}
+                onChange={handleChangePQRS}
+                className='w-full px-3 py-2 border rounded'
+                required
+              />
+            </div>
+            <div className='mb-4'>
+              <label className='block text-gray-700'>Tipo de Solicitud</label>
+              <select
+                name='type'
+                value={formDataPQRS.type}
+                onChange={handleChangePQRS}
+                className='w-full px-3 py-2 border rounded'
+              >
+                <option value='Pregunta'>Pregunta</option>
+                <option value='Queja'>Queja</option>
+                <option value='Reclamo'>Reclamo</option>
+                <option value='Sugerencia'>Sugerencia</option>
+              </select>
+            </div>
+            <div className='mb-4'>
+              <label className='block text-gray-700'>Mensaje</label>
+              <textarea
+                name='message'
+                value={formDataPQRS.message}
+                onChange={handleChangePQRS}
+                className='w-full px-3 py-2 border rounded'
+                rows='4'
+                required
+              ></textarea>
+            </div>
+            <button
+              type='submit'
+              className='w-full bg-primary text-white py-2 rounded'
+            >
+              Enviar
+            </button>
+          </form>
         </div>
-        <div className='mb-4'>
-          <label className='block text-gray-700'>Correo Electrónico</label>
-          <input
-            type='email'
-            name='email'
-            value={formData.email}
-            onChange={handleChange}
-            className='w-full px-3 py-2 border rounded'
-            required
-          />
+
+        {/* Formulario Contáctenos */}
+        <div className="md:w-1/2">
+          <div className='text-center text-xl font-semibold text-gray-600 mb-8'>Formulario Contáctenos</div>
+          <form className='max-w-xl mx-auto px-4 py-6 border rounded shadow-md' onSubmit={handleSubmitContact}>
+            <div className='mb-4'>
+              <label className='block text-gray-700'>Nombre</label>
+              <input
+                type='text'
+                name='name'
+                value={formDataContact.name}
+                onChange={handleChangeContact}
+                className='w-full px-3 py-2 border rounded'
+                required
+              />
+            </div>
+            <div className='mb-4'>
+              <label className='block text-gray-700'>Correo Electrónico</label>
+              <input
+                type='email'
+                name='email'
+                value={formDataContact.email}
+                onChange={handleChangeContact}
+                className='w-full px-3 py-2 border rounded'
+                required
+              />
+            </div>
+            <div className='mb-4'>
+              <label className='block text-gray-700'>Mensaje</label>
+              <textarea
+                name='message'
+                value={formDataContact.message}
+                onChange={handleChangeContact}
+                className='w-full px-3 py-2 border rounded'
+                rows='4'
+                required
+              ></textarea>
+            </div>
+            <button
+              type='submit'
+              className='w-full bg-primary text-white py-2 rounded'
+            >
+              Enviar
+            </button>
+          </form>
         </div>
-        <div className='mb-4'>
-          <label className='block text-gray-700'>Tipo de Solicitud</label>
-          <select
-            name='type'
-            value={formData.type}
-            onChange={handleChange}
-            className='w-full px-3 py-2 border rounded'
-          >
-            <option value='Pregunta'>Pregunta</option>
-            <option value='Queja'>Queja</option>
-            <option value='Reclamo'>Reclamo</option>
-            <option value='Sugerencia'>Sugerencia</option>
-          </select>
-        </div>
-        <div className='mb-4'>
-          <label className='block text-gray-700'>Mensaje</label>
-          <textarea
-            name='message'
-            value={formData.message}
-            onChange={handleChange}
-            className='w-full px-3 py-2 border rounded'
-            rows='4'
-            required
-          ></textarea>
-        </div>
-        <button
-          type='submit'
-          className='w-full bg-primary text-white py-2 rounded'
-        >
-          Enviar
-        </button>
-      </form>
+      </div>
     </div>
   );
 };
